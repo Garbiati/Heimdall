@@ -1,0 +1,71 @@
+using AutoMapper;
+using Heimdall.Application.Interfaces;
+using Heimdall.Domain.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
+
+namespace Heimdall.Application.Services;
+
+public class ServiceBase<TEntity, TDto, TCreateDto, TUpdateDto> : IServiceBase<TEntity, TDto, TCreateDto, TUpdateDto>
+    where TEntity : class
+{
+    protected readonly IUnitOfWork _unitOfWork;
+    protected readonly IMapper _mapper;
+
+    public ServiceBase(IUnitOfWork unitOfWork, IMapper mapper)
+    {
+        _unitOfWork = unitOfWork;
+        _mapper = mapper;
+    }
+
+    public virtual async Task<IEnumerable<TDto>> GetAllAsync()
+    {
+        var entities = await _unitOfWork.GetRepository<TEntity>().GetAllAsync();
+        return _mapper.Map<IEnumerable<TDto>>(entities);
+    }
+
+    public virtual async Task<TDto> GetByIdAsync(Guid id)
+    {
+        var entity = await _unitOfWork.GetRepository<TEntity>().GetByIdAsync(id);
+        return _mapper.Map<TDto>(entity);
+    }
+
+    public virtual async Task<TDto> CreateAsync(TCreateDto createDto)
+    {
+        var entity = _mapper.Map<TEntity>(createDto);
+        await _unitOfWork.GetRepository<TEntity>().AddAsync(entity);
+        await _unitOfWork.CompleteAsync();
+        return _mapper.Map<TDto>(entity);
+    }
+
+    public virtual async Task UpdateAsync(TUpdateDto updateDto)
+    {
+        var entity = _mapper.Map<TEntity>(updateDto);
+        _unitOfWork.GetRepository<TEntity>().Update(entity);
+        await _unitOfWork.CompleteAsync();
+    }
+
+    public virtual async Task DeleteAsync(Guid id)
+    {
+        var entity = await _unitOfWork.GetRepository<TEntity>().GetByIdAsync(id);
+        if (entity == null)
+            throw new InvalidOperationException("Entity not found");
+
+        _unitOfWork.GetRepository<TEntity>().Remove(entity);
+        await _unitOfWork.CompleteAsync();
+    }
+    public virtual async Task<(IEnumerable<TDto> Items, int TotalCount, int TotalPages)> GetPagedAsync(
+        Expression<Func<TEntity, bool>> predicate, int pageNumber, int pageSize)
+    {
+        int totalCount = await _unitOfWork.GetRepository<TEntity>().CountAsync(predicate);
+        int totalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
+
+        List<TEntity> pageData = await _unitOfWork.GetRepository<TEntity>().GetPagedAsync(predicate, pageNumber, pageSize);
+        IEnumerable<TDto> mappedData = _mapper.Map<IEnumerable<TDto>>(pageData);
+
+        return (mappedData, totalCount, totalPages);
+    }
+}

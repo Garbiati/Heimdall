@@ -1,28 +1,17 @@
-namespace Heimdall.Infra.Data.Repositories;
-
-using System;
-using System.Collections.Generic;
-using Heimdall.Persistence.Repositories;
-using Heimdall.Domain.Entities;
-using Heimdall.Domain.Interfaces;
-using Heimdall.Domain.Validations;
-using Heimdall.Infra.Data.Context;
-using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
 using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore;
+using Heimdall.Domain.Interfaces;
+using Heimdall.Infra.Data.Context;
 using Heimdall.Domain.Exceptions;
 
-public abstract class Repository<T> : IRepository<T>
+namespace Heimdall.Infra.Data.Repositories;
+public class Repository<T> : IRepository<T>
 where T : class
 {
     private readonly ApplicationDbContext _context;
 
     public Repository(ApplicationDbContext context)
-    {
-        _context = context;
-    }
-
-
+        => _context = context;
 
     //Create
     public virtual async Task CreateAsync(T entity)
@@ -98,7 +87,6 @@ where T : class
     //Exists
     public virtual async ValueTask<bool> HasAnyAsync()
         => await _context.Set<T>().AnyAsync();
-
 
     public virtual async ValueTask<bool> HasAnyAsync(Expression<Func<T, bool>> predicate)
         => await _context.Set<T>().AnyAsync(predicate);
