@@ -62,8 +62,8 @@ public class ExampleService : IExampleService
         {
             throw new Exception("Entity not found");
         }
-        entity.Active = false;
-        entity.DisabledAt = DateTimeOffset.Now;
+        entity.IsDeleted = true;
+        entity.DeletedAt = DateTimeOffset.Now;
 
         await _exampleRepository.UpdateAsync(entity);
     }

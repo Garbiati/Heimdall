@@ -31,7 +31,7 @@ public class ExampleRepository : BaseRepository<Example>, IExampleRepository
         }
 
         return await Context.Examples
-            .Where(x => x.Name.Contains(filterName))
+            .Where(x => x.StringExample.Contains(filterName))
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)
             .ToListAsync();
@@ -45,7 +45,7 @@ public class ExampleRepository : BaseRepository<Example>, IExampleRepository
         }
 
         return await Context.Examples
-            .Where(x => x.Name.Contains(filterName))
+            .Where(x => x.StringExample.Contains(filterName))
             .CountAsync();
     }
 }

@@ -9,9 +9,11 @@ public abstract class BaseEntity
     public Guid Id { get; set; }
     [Required]
     public DateTimeOffset CreatedAt { get; set; }
+    [Required]
     public DateTimeOffset? UpdatedAt { get; set; }
     [Required]
-    [DefaultValue(true)]
-    public bool Active { get; set; } = true;
-    public DateTimeOffset? DisabledAt { get; set; }
+    [DefaultValue(false)]
+    public bool IsDeleted { get; set; } = false;
+    [Required]
+    public DateTimeOffset? DeletedAt { get; set; }
 }
