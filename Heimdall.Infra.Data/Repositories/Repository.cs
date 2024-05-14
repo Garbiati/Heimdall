@@ -32,7 +32,6 @@ where T : class
     public virtual void Update(T entity)
         => _context.Set<T>().Update(entity);
 
-
     public virtual void UpdateRange(IEnumerable<T> entities)
         => _context.Set<T>().UpdateRange(entities);
 

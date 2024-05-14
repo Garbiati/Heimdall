@@ -31,6 +31,9 @@ public class UnitOfWork : IUnitOfWork
     public IRepository<Example> Examples
         => GetRepository<Example>();
 
+    public IRepository<ExampleItem> ExampleItems
+            => GetRepository<ExampleItem>();
+
     public async Task<int> CompleteAsync()
         => await _context.SaveChangesAsync();
 
