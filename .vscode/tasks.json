@@ -5,47 +5,7 @@
         "label": "build",
         "command": "dotnet",
         "type": "process",
-        "args": ["build", "${workspaceFolder}/Heimdall.Api/Heimdall.Api.csproj"],
-        "problemMatcher": "$msCompile",
-        "group": {
-          "kind": "build",
-          "isDefault": true
-        }
-      },
-      {
-        "label": "run",
-        "command": "dotnet",
-        "type": "process",
-        "args": ["run", "${workspaceFolder}/Heimdall.Api/Heimdall.Api.csproj"],
-        "problemMatcher": "$msCompile",
-        "group": {
-          "kind": "build",
-          "isDefault": true
-        }
-      },
-      {
-        "label": "test",
-        "command": "dotnet",
-        "type": "process",
-        "args": [
-          "test",
-          "${workspaceFolder}/Heimdall.Domain.Tests/Heimdall.Domain.Tests.csproj"
-        ],
-        "problemMatcher": "$msCompile",
-        "group": {
-          "kind": "test",
-          "isDefault": true
-        }
-      },
-      {
-        "label": "watch",
-        "command": "dotnet",
-        "type": "process",
-        "args": [
-          "watch",
-          "run",
-          "${workspaceFolder}/Heimdall.Api/Heimdall.Api.csproj"
-        ],
+        "args": ["build", "${workspaceFolder}/src/Heimdall.Api/Heimdall.Api.csproj"],
         "problemMatcher": "$msCompile",
         "group": {
           "kind": "build",
