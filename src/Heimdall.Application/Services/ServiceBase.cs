@@ -48,7 +48,7 @@ public class ServiceBase<TEntity, TDTO, TCreateDTO, TUpdateDTO> : IServiceBase<T
         return _mapper.Map<IEnumerable<TDTO>>(entities);
     }
 
-    public virtual async ValueTask<TDTO> GetByIdAsync(Guid id, bool detailed = false)
+    public virtual async Task<TDTO> GetByIdAsync(Guid id, bool detailed = false)
     {
         var entity = detailed
             ? await _unitOfWork.GetRepository<TEntity>().ReadByIdWithNavigationsAsync(id)

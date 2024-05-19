@@ -19,7 +19,7 @@ namespace Heimdall.Application.Interfaces
 
         //Read
         Task<IEnumerable<TDTO>> GetAllAsync(bool detailed = false);
-        ValueTask<TDTO> GetByIdAsync(Guid id, bool detailed = false);
+        Task<TDTO> GetByIdAsync(Guid id, bool detailed = false);
         Task<IEnumerable<TDTO>> GetByIdsAsync(IEnumerable<Guid> ids, bool detailed = false);
 
         //Update
