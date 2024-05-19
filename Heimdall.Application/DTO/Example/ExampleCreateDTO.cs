@@ -1,10 +1,15 @@
-namespace Heimdall.Domain.Entities;
+using System;
 using System.ComponentModel.DataAnnotations;
-using Heimdall.Domain.Common;
+using System.Diagnostics.CodeAnalysis;
 using Heimdall.Domain.Enums;
 
-public class Example : BaseEntity
+namespace Heimdall.Application.DTO.Example;
+
+public class ExampleCreateDTO
 {
+    [Required]
+    public Guid Id { get; set; }
+
     [Required]
     public string StringExample { get; set; } = string.Empty;
 
@@ -43,5 +48,5 @@ public class Example : BaseEntity
     [Required]
     public ExampleEnum EnumExample { get; set; }
 
-    public virtual ICollection<ExampleItem>? ExampleItems { get; set; }
+    public ICollection<ExampleItemCreateDTO>? ExampleItems { get; set; }
 }

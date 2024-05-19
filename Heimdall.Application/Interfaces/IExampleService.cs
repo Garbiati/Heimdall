@@ -1,15 +1,8 @@
-using Heimdall.Application.ViewModels;
-using Heimdall.Application.ViewModels.Example;
+using Heimdall.Application.DTO.Example;
+using Heimdall.Application.Interfaces;
+using Heimdall.Domain.Entities;
 
-namespace Heimdall.Application.Interfaces;
-public interface IExampleService
+public interface IExampleService : IServiceBase<Example, ExampleDTO, ExampleCreateDTO, ExampleUpdateDTO>
 {
-    Task CreateExample(ExampleViewModel exampleViewModel);
-    ValueTask<ExampleViewModel> GetExample(Guid id);
-    ValueTask<List<ExampleViewModel>> GetAllExamples();
-    Task UpdateExample(ExampleViewModel exampleViewModel);
-    Task DeleteExample(Guid id);
-    Task HardDeleteExample(Guid id);
 
-    ValueTask<PagedResult<ExampleViewModel>> GetExamplesByName(string filterName, int pageNumber, int pageSize);
 }
