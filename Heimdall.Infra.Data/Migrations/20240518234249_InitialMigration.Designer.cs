@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Heimdall.Infra.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240514005153_FirstMigration")]
-    partial class FirstMigration
+    [Migration("20240518234249_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -36,6 +36,12 @@ namespace Heimdall.Infra.Data.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
+                    b.Property<DateTime>("DateTimeExample")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime?>("DateTimeNullableExample")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<DateTimeOffset>("DateTimeOffsetExample")
                         .HasColumnType("timestamp with time zone");
 
@@ -43,7 +49,10 @@ namespace Heimdall.Infra.Data.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<decimal>("DecimalExample")
-                        .HasColumnType("numeric");
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal?>("DecimalNullExample")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTimeOffset?>("DeletedAt")
                         .HasColumnType("timestamp with time zone");
@@ -51,10 +60,22 @@ namespace Heimdall.Infra.Data.Migrations
                     b.Property<int>("EnumExample")
                         .HasColumnType("integer");
 
+                    b.Property<int>("IntExample")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("IntNullExample")
+                        .HasColumnType("integer");
+
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("boolean")
                         .HasDefaultValue(false);
+
+                    b.Property<long>("LongExample")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("LongNullExample")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("StringExample")
                         .IsRequired()
@@ -110,6 +131,9 @@ namespace Heimdall.Infra.Data.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("integer");
 
                     b.Property<DateTimeOffset?>("UpdatedAt")
                         .ValueGeneratedOnUpdate()

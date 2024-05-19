@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Heimdall.Infra.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class FirstMigration : Migration
+    public partial class InitialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -22,7 +22,14 @@ namespace Heimdall.Infra.Data.Migrations
                     TextExample = table.Column<string>(type: "text", nullable: true),
                     DateTimeOffsetExample = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
                     DateTimeOffsetNullableExample = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    DecimalExample = table.Column<decimal>(type: "numeric", nullable: false),
+                    DateTimeExample = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    DateTimeNullableExample = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    IntExample = table.Column<int>(type: "integer", nullable: false),
+                    IntNullExample = table.Column<int>(type: "integer", nullable: true),
+                    DecimalExample = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
+                    DecimalNullExample = table.Column<decimal>(type: "numeric(18,2)", nullable: true),
+                    LongExample = table.Column<long>(type: "bigint", nullable: false),
+                    LongNullExample = table.Column<long>(type: "bigint", nullable: true),
                     EnumExample = table.Column<int>(type: "integer", nullable: false),
                     CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
                     UpdatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
@@ -41,6 +48,7 @@ namespace Heimdall.Infra.Data.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
                     Description = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    Quantity = table.Column<int>(type: "integer", nullable: false),
                     ExampleId = table.Column<Guid>(type: "uuid", nullable: false),
                     CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
                     UpdatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),

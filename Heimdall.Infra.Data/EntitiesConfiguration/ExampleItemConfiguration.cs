@@ -17,6 +17,9 @@ public class ExampleItemConfiguration : BaseEntityConfiguration<ExampleItem>
                      .HasMaxLength(100)
                      .IsRequired();
 
+              builder.Property(e => e.Quantity)
+                     .IsRequired();
+
               //foreign key
               builder.HasOne(e => e.Example)
               .WithMany(e => e.ExampleItems)
