@@ -21,16 +21,16 @@ namespace Heimdall.Api.Controllers.Shared
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<TDto>>> GetAll()
+        public async Task<ActionResult<IEnumerable<TDto>>> GetAll([FromQuery] bool detailed = false)
         {
-            var items = await _service.GetAllAsync();
+            var items = await _service.GetAllAsync(detailed);
             return Ok(items);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<TDto>> GetById(Guid id)
+        public async Task<ActionResult<TDto>> GetById(Guid id, [FromQuery] bool detailed = false)
         {
-            var item = await _service.GetByIdAsync(id);
+            var item = await _service.GetByIdAsync(id, detailed);
             if (item == null)
                 return NotFound();
             return Ok(item);

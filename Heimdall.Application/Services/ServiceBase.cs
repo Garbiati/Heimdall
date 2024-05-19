@@ -39,27 +39,27 @@ public class ServiceBase<TEntity, TDTO, TCreateDTO, TUpdateDTO> : IServiceBase<T
 
     // Read
 
-    public virtual async Task<IEnumerable<TDTO>> GetAllAsync(bool includeNavigationProperties = false)
+    public virtual async Task<IEnumerable<TDTO>> GetAllAsync(bool detailed = false)
     {
-        var entities = includeNavigationProperties
+        var entities = detailed
             ? await _unitOfWork.GetRepository<TEntity>().ReadAllWithNavigationsAsync()
             : await _unitOfWork.GetRepository<TEntity>().ReadAllAsync();
 
         return _mapper.Map<IEnumerable<TDTO>>(entities);
     }
 
-    public virtual async ValueTask<TDTO> GetByIdAsync(Guid id, bool includeNavigationProperties = false)
+    public virtual async ValueTask<TDTO> GetByIdAsync(Guid id, bool detailed = false)
     {
-        var entity = includeNavigationProperties
+        var entity = detailed
             ? await _unitOfWork.GetRepository<TEntity>().ReadByIdWithNavigationsAsync(id)
             : await _unitOfWork.GetRepository<TEntity>().ReadByIdAsync(id);
 
         return _mapper.Map<TDTO>(entity);
     }
 
-    public virtual async Task<IEnumerable<TDTO>> GetByIdsAsync(IEnumerable<Guid> ids, bool includeNavigationProperties = false)
+    public virtual async Task<IEnumerable<TDTO>> GetByIdsAsync(IEnumerable<Guid> ids, bool detailed = false)
     {
-        var entities = includeNavigationProperties
+        var entities = detailed
             ? await _unitOfWork.GetRepository<TEntity>().ReadByIdsWithNavigationsAsync(ids)
             : await _unitOfWork.GetRepository<TEntity>().ReadByIdsAsync(ids);
 
