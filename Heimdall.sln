@@ -3,25 +3,22 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Heimdall.Domain", "Heimdall.Domain\Heimdall.Domain.csproj", "{F519D3F7-DE9A-42E3-9487-884FC4A9399A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Heimdall.Domain", "src\Heimdall.Domain\Heimdall.Domain.csproj", "{F519D3F7-DE9A-42E3-9487-884FC4A9399A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Heimdall.Api", "Heimdall.Api\Heimdall.Api.csproj", "{C4033A26-3185-4130-87CB-BD628024F914}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Heimdall.Api", "src\Heimdall.Api\Heimdall.Api.csproj", "{C4033A26-3185-4130-87CB-BD628024F914}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Heimdall.Infra.Data", "Heimdall.Infra.Data\Heimdall.Infra.Data.csproj", "{46EA0CF8-C4D2-4F2D-B054-C805A5DA046B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Heimdall.Infra.Data", "src\Heimdall.Infra.Data\Heimdall.Infra.Data.csproj", "{46EA0CF8-C4D2-4F2D-B054-C805A5DA046B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Heimdall.Infra.IoC", "Heimdall.Infra.IoC\Heimdall.Infra.IoC.csproj", "{ADB686D2-F455-4FD6-B51F-97ABEB9FFEFC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Heimdall.Infra.IoC", "src\Heimdall.Infra.IoC\Heimdall.Infra.IoC.csproj", "{ADB686D2-F455-4FD6-B51F-97ABEB9FFEFC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Heimdall.Application", "Heimdall.Application\Heimdall.Application.csproj", "{42CDC94D-342D-41E5-8C89-3E753E139F19}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Heimdall.Application", "src\Heimdall.Application\Heimdall.Application.csproj", "{42CDC94D-342D-41E5-8C89-3E753E139F19}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Heimdall.Domain.Tests", "Heimdall.Domain.Tests\Heimdall.Domain.Tests.csproj", "{4A2347B5-629F-4C15-B1C1-30E716C62D2B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Heimdall.Domain.Tests", "tests\Heimdall.Domain.Tests\Heimdall.Domain.Tests.csproj", "{4A2347B5-629F-4C15-B1C1-30E716C62D2B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{F519D3F7-DE9A-42E3-9487-884FC4A9399A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -48,5 +45,8 @@ Global
 		{4A2347B5-629F-4C15-B1C1-30E716C62D2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4A2347B5-629F-4C15-B1C1-30E716C62D2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4A2347B5-629F-4C15-B1C1-30E716C62D2B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 EndGlobal

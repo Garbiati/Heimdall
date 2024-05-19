@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Heimdall.Domain\Heimdall.Domain.csproj" />
+    <ProjectReference Include="../../src/Heimdall.Domain/Heimdall.Domain.csproj" />
   </ItemGroup>
 
 </Project>
