@@ -31,6 +31,49 @@ where T : class
     public virtual async Task<IEnumerable<T>> ReadByIdsAsync(IEnumerable<Guid> ids)
         => await _context.Set<T>().Where(e => ids.Contains(EF.Property<Guid>(e, "Id"))).ToListAsync();
 
+    public async Task<IEnumerable<T>> ReadAllWithNavigationsAsync()
+    {
+        var query = _context.Set<T>().AsQueryable();
+        var navigationProperties = _context.Model.FindEntityType(typeof(T))?.GetNavigations();
+        if (navigationProperties != null)
+        {
+            foreach (var property in navigationProperties)
+            {
+                query = query.Include(property.Name);
+            }
+        }
+        return await query.ToListAsync();
+    }
+
+    public async ValueTask<T> ReadByIdWithNavigationsAsync(Guid id)
+    {
+        var query = _context.Set<T>().AsQueryable();
+        var navigationProperties = _context.Model.FindEntityType(typeof(T))?.GetNavigations();
+        if (navigationProperties != null)
+        {
+            foreach (var property in navigationProperties)
+            {
+                query = query.Include(property.Name);
+            }
+        }
+        return await query.FirstOrDefaultAsync(e => EF.Property<Guid>(e, "Id") == id)
+            ?? throw new NotFoundException(typeof(T).Name, id);
+    }
+
+    public async Task<IEnumerable<T>> ReadByIdsWithNavigationsAsync(IEnumerable<Guid> ids)
+    {
+        var query = _context.Set<T>().AsQueryable();
+        var navigationProperties = _context.Model.FindEntityType(typeof(T))?.GetNavigations();
+        if (navigationProperties != null)
+        {
+            foreach (var property in navigationProperties)
+            {
+                query = query.Include(property.Name);
+            }
+        }
+        return await query.Where(e => ids.Contains(EF.Property<Guid>(e, "Id"))).ToListAsync();
+    }
+
     // Update
     public virtual void Update(T entity)
         => _context.Set<T>().Update(entity);
@@ -99,4 +142,6 @@ where T : class
     public virtual async ValueTask<bool> HasAnyWithIncludeAsync(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includeProperties)
         => await includeProperties.Aggregate(_context.Set<T>().Where(predicate), (current, includeProperty)
             => current.Include(includeProperty)).AnyAsync();
+
+
 }

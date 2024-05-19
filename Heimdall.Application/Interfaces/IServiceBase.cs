@@ -18,8 +18,9 @@ namespace Heimdall.Application.Interfaces
         Task CreateRangeAsync(IEnumerable<TCreateDTO> createDtos);
 
         //Read
-        Task<IEnumerable<TDTO>> GetAllAsync();
-        ValueTask<TDTO> GetByIdAsync(Guid id);
+        Task<IEnumerable<TDTO>> GetAllAsync(bool includeNavigationProperties = false);
+        ValueTask<TDTO> GetByIdAsync(Guid id, bool includeNavigationProperties = false);
+        Task<IEnumerable<TDTO>> GetByIdsAsync(IEnumerable<Guid> ids, bool includeNavigationProperties = false);
 
         //Update
         Task UpdateAsync(Guid id, TUpdateDTO updateDto);

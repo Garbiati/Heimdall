@@ -9,9 +9,15 @@ public interface IRepository<T> where T : class
 
     //Read
     Task<IEnumerable<T>> ReadAllAsync();
+    Task<IEnumerable<T>> ReadAllWithNavigationsAsync();
+
     ValueTask<T> ReadByIdAsync(Guid id);
 
+    ValueTask<T> ReadByIdWithNavigationsAsync(Guid id);
+
     Task<IEnumerable<T>> ReadByIdsAsync(IEnumerable<Guid> ids);
+
+    Task<IEnumerable<T>> ReadByIdsWithNavigationsAsync(IEnumerable<Guid> ids);
 
     //Update
     void Update(T entity);
