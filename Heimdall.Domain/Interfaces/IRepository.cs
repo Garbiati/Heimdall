@@ -11,6 +11,8 @@ public interface IRepository<T> where T : class
     Task<IEnumerable<T>> ReadAllAsync();
     ValueTask<T> ReadByIdAsync(Guid id);
 
+    Task<IEnumerable<T>> ReadByIdsAsync(IEnumerable<Guid> ids);
+
     //Update
     void Update(T entity);
     void UpdateRange(IEnumerable<T> entities);
@@ -36,6 +38,7 @@ public interface IRepository<T> where T : class
     ValueTask<T> FirstOrDefaultWithIncludeAsync(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includeProperties);
 
     //Exists
+    ValueTask<bool> ExistsAsync(Guid id);
     ValueTask<bool> HasAnyAsync();
     ValueTask<bool> HasAnyAsync(Expression<Func<T, bool>> predicate);
     ValueTask<bool> HasAnyWithIncludeAsync(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includeProperties);

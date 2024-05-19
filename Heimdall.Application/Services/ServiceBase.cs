@@ -3,10 +3,14 @@ using System.Linq.Expressions;
 using AutoMapper;
 using Heimdall.Application.Interfaces;
 using Heimdall.Domain.Interfaces;
+using Microsoft.AspNetCore.JsonPatch;
 
 namespace Heimdall.Application.Services;
 public class ServiceBase<TEntity, TDTO, TCreateDTO, TUpdateDTO> : IServiceBase<TEntity, TDTO, TCreateDTO, TUpdateDTO>
     where TEntity : class
+    where TDTO : class
+    where TCreateDTO : class
+    where TUpdateDTO : class
 {
     protected readonly IUnitOfWork _unitOfWork;
     protected readonly IMapper _mapper;
@@ -49,19 +53,51 @@ public class ServiceBase<TEntity, TDTO, TCreateDTO, TUpdateDTO> : IServiceBase<T
 
 
     // Update
-    public virtual async Task UpdateAsync(TUpdateDTO updateDto)
+    public virtual async Task UpdateAsync(Guid id, TUpdateDTO updateDto)
     {
-        var entity = _mapper.Map<TEntity>(updateDto);
-        _unitOfWork.GetRepository<TEntity>().Update(entity);
+        var existingEntity = await _unitOfWork.GetRepository<TEntity>().ReadByIdAsync(id);
+        if (existingEntity == null)
+        {
+            throw new KeyNotFoundException("Entity not found");
+        }
+
+        _mapper.Map(updateDto, existingEntity);
+        _unitOfWork.GetRepository<TEntity>().Update(existingEntity);
+        await _unitOfWork.CompleteAsync();
+    }
+    public virtual async Task UpdateRangeAsync(IEnumerable<(Guid Id, TUpdateDTO UpdateDto)> updateDtos)
+    {
+        var ids = updateDtos.Select(ud => ud.Id).ToList();
+        var existingEntities = await _unitOfWork.GetRepository<TEntity>().ReadByIdsAsync(ids);
+
+        foreach (var existingEntity in existingEntities)
+        {
+            var entityId = (Guid)(typeof(TEntity).GetProperty("Id")?.GetValue(existingEntity) ?? Guid.Empty);
+
+            var updateDto = updateDtos.First(ud => ud.Id == entityId);
+            _mapper.Map(updateDto.UpdateDto, existingEntity);
+        }
+
+        _unitOfWork.GetRepository<TEntity>().UpdateRange(existingEntities);
         await _unitOfWork.CompleteAsync();
     }
 
-    public virtual Task UpdateRangeAsync(IEnumerable<TUpdateDTO> updateDtos)
+    public virtual async Task PatchAsync(Guid id, JsonPatchDocument<TUpdateDTO> patchDoc)
     {
-        var entities = _mapper.Map<IEnumerable<TEntity>>(updateDtos);
-        _unitOfWork.GetRepository<TEntity>().UpdateRange(entities);
-        return _unitOfWork.CompleteAsync();
+        var existingEntity = await _unitOfWork.GetRepository<TEntity>().ReadByIdAsync(id);
+        if (existingEntity == null)
+        {
+            throw new KeyNotFoundException("Entity not found");
+        }
+
+        var updateDto = _mapper.Map<TUpdateDTO>(existingEntity);
+        patchDoc.ApplyTo(updateDto);
+        _mapper.Map(updateDto, existingEntity);
+
+        _unitOfWork.GetRepository<TEntity>().Update(existingEntity);
+        await _unitOfWork.CompleteAsync();
     }
+
 
     // Delete
     public virtual async Task DeleteAsync(Guid id)
@@ -95,10 +131,7 @@ public class ServiceBase<TEntity, TDTO, TCreateDTO, TUpdateDTO> : IServiceBase<T
         return (mappedData, totalCount, totalPages);
     }
 
+    public async Task<bool> ExistsAsync(Guid id)
+        => await _unitOfWork.GetRepository<TEntity>().ExistsAsync(id);
 
-
-    public Task<bool> ExistsAsync(Guid id)
-    {
-        throw new NotImplementedException();
-    }
 }

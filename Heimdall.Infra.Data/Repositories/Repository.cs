@@ -28,6 +28,9 @@ where T : class
         => await _context.Set<T>().FindAsync(id)
             ?? throw new NotFoundException(typeof(T).Name, id);
 
+    public virtual async Task<IEnumerable<T>> ReadByIdsAsync(IEnumerable<Guid> ids)
+        => await _context.Set<T>().Where(e => ids.Contains(EF.Property<Guid>(e, "Id"))).ToListAsync();
+
     // Update
     public virtual void Update(T entity)
         => _context.Set<T>().Update(entity);
@@ -86,6 +89,9 @@ where T : class
     //Exists
     public virtual async ValueTask<bool> HasAnyAsync()
         => await _context.Set<T>().AnyAsync();
+
+    public virtual async ValueTask<bool> ExistsAsync(Guid id)
+        => await _context.Set<T>().AnyAsync(e => EF.Property<Guid>(e, "Id") == id);
 
     public virtual async ValueTask<bool> HasAnyAsync(Expression<Func<T, bool>> predicate)
         => await _context.Set<T>().AnyAsync(predicate);
