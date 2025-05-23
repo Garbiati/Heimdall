@@ -17,7 +17,7 @@ services:
     container_name: keycloak
     depends_on:
       - postgres
-    command: start-dev
+    command: start-dev --import-realm
     environment:
       KC_DB: postgres
       KC_DB_URL_HOST: postgres
@@ -31,6 +31,7 @@ services:
     networks:
       - keycloak_net
     volumes:
+      - ./keycloak/import:/opt/keycloak/data/import
       - ./keycloak/themes:/opt/keycloak/themes
 
 volumes:
